@@ -1,0 +1,16 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nome": "admin",
+      "email": "admin@admin.com",
+      "password": "admin"
+    },
+    {
+      "id": 2,
+      "nome": "Felipe",
+      "email": "felipequagliotomachado.2020@gmail.com",
+      "password": "1234"
+    }
+  ]
+}
