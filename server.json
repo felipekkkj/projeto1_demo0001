@@ -2,7 +2,7 @@
   "usuarios": [
     {
       "id": 1,
-      "nome": "admin",
+      "nome": "Admin",
       "email": "admin@admin.com",
       "password": "admin"
     },
@@ -11,6 +11,12 @@
       "nome": "Felipe",
       "email": "felipequagliotomachado.2020@gmail.com",
       "password": "1234"
+    },
+    {
+      "nome": "Pedro",
+      "email": "pedro@gmail.com",
+      "password": "pedro1234",
+      "id": 3
     }
   ]
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify";
 
 export function Usuarios() {
 
@@ -12,6 +13,18 @@ export function Usuarios() {
         axios.get("http://localhost:3333/usuarios")
             .then(Response => {
                 setUsuarios(Response.data);
+            })
+            .catch(erro => {
+                toast.error("Nenhum usuário encontrado!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    })
             })
     }
 

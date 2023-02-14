@@ -1,17 +1,34 @@
 import { Form } from "@unform/web";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import InputLabel from '../../components/unform/input-label'
 import * as Yup from 'yup'
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export function NovoUsuario() {
+export function EditarUsuario() {
 
     const FormRef = useRef(null)
 
-    const navigate = useNavigate()
+    const params = useParams()
     
+    const [usuario, setUsuario] = useState()
+
+    const buscarUsuario = async (id) => {
+        await axios.get(`http://localhost:3333/usuarios/${id}`)
+            .then(response => setUsuario(response.data))
+                .catch(erro => toast.error("Usuário não encontrado!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                    }))
+             }
+
     const Submit = async (data) => {
     
         try {
@@ -23,20 +40,14 @@ export function NovoUsuario() {
 
                 email: Yup.string()
                 .required("E-mail é obrigatório")
-                .email("E-mail inválido"),
-
-                password: Yup.string()
-                .required("Senha é obrigatório")
-                .min(6, "Sua senha precisa ter no mínimo 6 dígitos")
-                .max(16, "Sua senha pode ter no máximo 16 dígitos")
-
+                .email("E-mail inválido")
             })
 
             await schema.validate(data, { abortEarly: false })
 
-                await axios.post("http://localhost:3333/usuarios", data)
+                await axios.put(`http://localhost:3333/usuarios/${usuario.id}`, data)
                 .then(response => {
-                    toast.success("Usuário salvo com sucesso!", {
+                    toast.success("Usuário atualizado com sucesso!", {
                         position: "top-center",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -46,10 +57,9 @@ export function NovoUsuario() {
                         progress: undefined,
                         theme: "dark",
                         })
-                    navigate(`/usuarios/${response.data.id}`)
                 })
                 .catch(erro => {
-                    toast.error("Usuário não foi salvo na base da dados!", {
+                    toast.error("Erro ao atualizar o usuário!", {
                         position: "top-center",
                         autoClose: 3000,
                         hideProgressBar: false,
@@ -75,15 +85,21 @@ export function NovoUsuario() {
         }
     }
 
+    useEffect(() => {
+        const { id } = params
+
+        if(id) buscarUsuario(id)
+    }, [])
+
     return (
         <div className="container">
             <div className="col text-center">
-                <h1>Novo usuário</h1>
+                <h1>Editando {usuario?.nome}</h1>
             </div>
 
             <div className="row justify-content-center">
                 <div className="col-12 col-md-6">
-                    <Form ref={FormRef} onSubmit={Submit}>
+                    <Form ref={FormRef} onSubmit={Submit} initialData={usuario}>
                         <div className="col">
                             <InputLabel name="nome" label="Nome" />
                         </div>
@@ -92,15 +108,10 @@ export function NovoUsuario() {
                             <InputLabel name="email" label="E-mail" />
                         </div>
 
-                        {/* type="password" tampa a senha */}
-                        <div className="col mt-3">
-                            <InputLabel name="password" label="Senha" />
-                        </div>
-
                         <div className="row mt-3">
                             <div className="col text-center">
                                 <button className="btn btn-primary" type="submit">
-                                    Salvar
+                                    Atualizar
                                 </button>
                             </div>
                         </div>
