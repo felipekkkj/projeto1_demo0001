@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import InputLabel from '../../components/unform/input-label'
 import * as Yup from 'yup'
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function EditarUsuario() {
@@ -108,12 +108,19 @@ export function EditarUsuario() {
                             <InputLabel name="email" label="E-mail" />
                         </div>
 
-                        <div className="row mt-3">
-                            <div className="col text-center">
+                        <div className="row justify-content-center mt-3">
+                            <div className="col col-md-2 d-grid">
                                 <button className="btn btn-primary" type="submit">
                                     Atualizar
                                 </button>
                             </div>
+
+                            <div className="col col-md-2 d-grid">
+                                <Link to="/users" className="btn btn-secondary">
+                                    Voltar
+                                </Link>
+                            </div>
+
                         </div>
                     </Form>
                 </div>
