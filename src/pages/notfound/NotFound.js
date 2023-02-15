@@ -3,6 +3,7 @@ import styledComponents from "styled-components";
 import error_404 from '../../assets/error_404.png';
 
 export function NotFound() {
+
     return(
         <Container className="container">
             <div className="row justify-content-center">
